@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Power_Usage.Core/1.0.0": {
+        "runtime": {
+          "Power_Usage.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Power_Usage.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
