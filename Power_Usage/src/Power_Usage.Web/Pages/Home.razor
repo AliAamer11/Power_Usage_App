@@ -1,0 +1,145 @@
+﻿@page "/"
+@using Power_Usage.Core.Enums
+@using Power_Usage.Core.Models
+@using Power_Usage.Core.Service
+@using Power_Usage.Web.Requests
+
+<h3 class="text-center mt-4"> Elcetricity Billing</h3>
+
+<div class="container mt-4">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <EditForm Model="@billingRequest" OnValidSubmit="GenerateBill">
+                <div class="mb-3">
+                    <div class="d-flex align-items-end justify-content-around">
+                        <div>
+                            <label for="startAt" class="form-label">Cycle starts at</label>
+                            <InputDate Type="InputDateType.Date" id="startAt" @bind-Value="billingRequest.StartAt" class="form-control" />
+                        </div>
+                        <div>
+                            =>
+                        </div>
+                        <div>
+                            <label for="endAt" class="form-label">Cycle end at</label>
+                            <InputDate Type="InputDateType.Date" id="endAt" @bind-Value="billingRequest.EndAt" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="consumption" class="form-label">Consumption</label>
+                    <div class="input-group mb-3">
+                        <input type="range" id="consumption" class="form-range" min="0" max="1000" step="10"
+                               @bind="billingRequest.Consumption" />
+                        <span class="text-bg-dark fs-3">
+                            @billingRequest.Consumption kwh
+                        </span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label"> Billing Type</label>
+                    <InputRadioGroup @bind-Value="billingRequest.BillingType" class="form-check">
+                        <div class="d-flex align-items-end justify-content-center">
+                            <div class="form-check ps-0 me-3">
+                                <InputRadio id="residential" class="btn-check" Value="BillingType.Residential" />
+                                <label for="residential" class="btn btn-outline-secondary btn-sm bg-opacity-50">
+                                    Residential
+                                </label>
+                            </div>
+                            <div class="form-check ps-0 me-3">
+                                <InputRadio id="commerial" class="btn-check" Value="BillingType.Commerial" />
+                                <label for="commerial" class="btn btn-outline-secondary btn-sm bg-opacity-50">
+                                    Commerial
+                                </label>
+                            </div>
+                        </div>
+                    </InputRadioGroup>
+                </div>
+                <hr />
+                <button type="submit" class="btn btn-primary">Calculate</button>
+            </EditForm>
+        </div>
+        <div class="col-md-6">
+            @if (bill is not null)
+            {
+                <table class="table table-sm table-info rounded-2 p-5">
+                    <thead>
+                        <tr>
+                            <th colspan="4" class="text-primary">Billing Type is :</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4" class="text-secondary">@bill.BillingType.ToString()</th>
+                        </tr>
+                        <tr>
+                            <th class="text-primary">Cycle Start At</th>
+                            <th colspan="2" class="text-secondary">=></th>
+                            <th class="text-primary">Cycle End At</th>
+                        </tr> 
+                        <tr>
+                            <th class="text-secondary">@bill.StartAt</th>
+                            <th colspan="2" class="text-secondary">=></th>
+                            <th class="text-secondary">@bill.EndAt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">
+                                <table class="table table-striped table-sm" style="font-size :0.875rem;">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-secondary">Tier</th>
+                                            <th class="text-secondary">Consumption iin (KWh)</th>
+                                            <th class="text-secondary">Rate (USD/)</th>
+                                            <th class="text-secondary">Total (USD)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var tier in bill.Breakdown)
+                                        {
+                                            <tr>
+                                                <td class="fa-bolder">@tier.TierName</td>
+                                                <td class="fa-bolder">@tier.Consumtion</td>
+                                                <td class="fa-bolder">@tier.Rate</td>
+                                                <td class="fa-bolder">$@tier.Total.ToString("N2")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="bg-dark text-center">
+                                            <th colspan="4" class="fs-3 text-dark">
+                                                <span class="text-secondary">
+                                                    Amount due :
+                                                    <span>
+                                                        $@bill.Total.ToString("N2")
+                                                    </span>
+                                                </span>
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+@code {
+    private BillingRequest billingRequest = new();
+    private Bill? bill = default;
+
+
+    private void GenerateBill()
+    {
+        if (billingRequest.BillingType == BillingType.Residential)
+        {
+            bill = BillingCalculator.CalculateResidentialBill(billingRequest.Consumption, billingRequest.StartAt, billingRequest.EndAt);
+        }
+        else
+        {
+            bill = BillingCalculator.CalculateCommercialBill(billingRequest.Consumption, billingRequest.StartAt, billingRequest.EndAt);
+
+        }
+    }
+
+}

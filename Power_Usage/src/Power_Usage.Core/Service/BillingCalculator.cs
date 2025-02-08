@@ -36,7 +36,7 @@ public static class BillingCalculator
             (
                 TierName: tier.Name,
                 Consumtion: tierConsumption,
-                Rete: tier.Rate,
+                Rate: tier.Rate,
                 Total: tierConsumption * tier.Rate
             ));
 
@@ -78,7 +78,7 @@ public static class BillingCalculator
             (
                 TierName: tier.Name,
                 Consumtion: tierConsumption,
-                Rete: tier.Rate,
+                Rate: tier.Rate,
                 Total: tierConsumption * tier.Rate
             ));
 
