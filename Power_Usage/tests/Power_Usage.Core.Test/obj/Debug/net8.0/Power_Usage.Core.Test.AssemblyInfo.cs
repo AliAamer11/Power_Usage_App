@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Power_Usage.Core.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17f2a253efddbf9fb69bb9533b96a5419a5e95ab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c18d9a2b2ca75b62e6e07ef56f21625157fecba6")]
 [assembly: System.Reflection.AssemblyProductAttribute("Power_Usage.Core.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Power_Usage.Core.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

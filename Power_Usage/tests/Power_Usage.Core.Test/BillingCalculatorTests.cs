@@ -96,7 +96,7 @@ public class BillingCalculatorTests
                     StartAt: DefaultStartDate,
                     EndAt: DefaultEndDate,
                     Breakdown: new List<BillDetails> {
-                        new BillDetails("Up to 200 kWh", 160, 0.05m, 8.00m)
+                        new BillDetails("Up to 200 kWh", 160, 0.08M, 12.80M)
                     }
                 )
             },
